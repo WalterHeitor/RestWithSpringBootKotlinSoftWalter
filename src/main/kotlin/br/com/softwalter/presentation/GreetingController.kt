@@ -1,6 +1,6 @@
-package br.com.softwalter.controler
+package br.com.softwalter.presentation
 
-import br.com.softwalter.domain.Greeting
+import br.com.softwalter.domain.model.Greeting
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
