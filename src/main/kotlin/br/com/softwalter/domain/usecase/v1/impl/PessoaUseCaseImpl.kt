@@ -15,4 +15,10 @@ class PessoaUseCaseImpl(val pessoaMapper: PessoaMapper) : PessoaUseCase {
         var pessoa = Pessoa(1, "walter", "walter@oliveira")
         return pessoaMapper.pessoaToPessoaResponse(pessoa)
     }
+
+    override fun buscarPessoas(): List<Pessoa> {
+        logger.info("buscando pessoa no Banco de Dados ...")
+        val pessoas: MutableList<Pessoa> = ArrayList()
+        return pessoaMapper.listPessoaToResponsesPessoas(pessoas)
+    }
 }

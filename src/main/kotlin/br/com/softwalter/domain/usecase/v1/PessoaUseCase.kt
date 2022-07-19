@@ -6,4 +6,6 @@ import br.com.softwalter.presentation.pessoa.dto.PessoaResponse
 interface PessoaUseCase {
 
     fun buscarPessoaPorId(idPessoa: Long) : PessoaResponse?
+
+    fun buscarPessoas() : List<Pessoa>
 }

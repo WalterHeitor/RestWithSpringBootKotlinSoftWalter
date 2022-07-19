@@ -5,4 +5,5 @@ import br.com.softwalter.presentation.pessoa.dto.PessoaResponse
 
 interface PessoaMapper {
     fun pessoaToPessoaResponse( pessoa: Pessoa) : PessoaResponse
+    fun listPessoaToResponsesPessoas(pessoas: MutableList<Pessoa>): List<PessoaResponse>
 }
