@@ -1,7 +1,16 @@
 package br.com.softwalter.domain.model
 
+import javax.persistence.*
+
+
+@Entity
+@Table(name = "pessoa")
 data class Pessoa(
-    var idPessoa: Long? = 0,
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    var idPessoa: Long? = null,
+    @Column(name = "nome")
     var nome: String,
+    @Column(name = "email")
     var email: String,
 )

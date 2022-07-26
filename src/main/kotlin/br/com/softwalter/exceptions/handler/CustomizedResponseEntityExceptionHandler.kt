@@ -1,5 +1,7 @@
-package br.com.softwalter.exceptions
+package br.com.softwalter.exceptions.handler
 
+import br.com.softwalter.exceptions.ExceptionResponse
+import br.com.softwalter.exceptions.UnsupportedMathOperationException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ControllerAdvice
