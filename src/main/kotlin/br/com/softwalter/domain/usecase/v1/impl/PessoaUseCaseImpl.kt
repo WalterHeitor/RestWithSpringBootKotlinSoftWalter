@@ -4,7 +4,7 @@ import br.com.softwalter.domain.model.Pessoa
 import br.com.softwalter.domain.repository.PessoaRepository
 import br.com.softwalter.domain.usecase.v1.PessoaUseCase
 import br.com.softwalter.presentation.mapper.PessoaMapper
-import br.com.softwalter.presentation.pessoa.dto.PessoaResponse
+import br.com.softwalter.presentation.pessoa.dto.v1.PessoaResponse
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import java.util.logging.Logger
@@ -17,10 +17,10 @@ class PessoaUseCaseImpl(
     ) : PessoaUseCase {
     private val logger = Logger.getLogger(PessoaUseCaseImpl::class.java.name)
     @Autowired
-    private lateinit var  pessoaRepositoryInterface: PessoaRepository
+    private lateinit var  pessoaRepository: PessoaRepository
     override fun buscarPessoaPorId(idPessoa: Long): PessoaResponse? {
         logger.info("usecase - buscando pessoa no Banco de Dados ...")
-        val pessoa: Pessoa? = pessoaRepositoryInterface.findById(idPessoa)
+        val pessoa: Pessoa? = pessoaRepository.findById(idPessoa)
             .orElseThrow { RuntimeException("lancar exectipito banco") }
 
         logger.info("usecase - pessoa encontrada no Banco de Dados ...")
@@ -37,7 +37,7 @@ class PessoaUseCaseImpl(
 
     override fun salvarPessoa(pessoa: Pessoa): PessoaResponse? {
         logger.info("usecase - Salvando pessoa no Banco de Dados ...")
-        val pessoaResponse = pessoaRepositoryInterface.save(pessoa)
+        val pessoaResponse = pessoaRepository.save(pessoa)
         logger.info("usecase - pessoa salva com sucesso no Banco de Dados ...")
         return pessoaMapper.pessoaToPessoaResponse(pessoaResponse)
     }

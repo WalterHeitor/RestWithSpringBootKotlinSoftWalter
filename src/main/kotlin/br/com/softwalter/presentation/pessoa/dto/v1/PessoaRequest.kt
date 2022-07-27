@@ -1,4 +1,4 @@
-package br.com.softwalter.presentation.pessoa.dto
+package br.com.softwalter.presentation.pessoa.dto.v1
 
 class PessoaRequest (
     var nome: String,

@@ -2,28 +2,18 @@ package br.com.softwalter.presentation.pessoa
 
 import br.com.softwalter.domain.usecase.v1.PessoaUseCase
 import br.com.softwalter.presentation.mapper.PessoaMapper
-import br.com.softwalter.presentation.pessoa.dto.v1.PessoaRequest
 import br.com.softwalter.presentation.pessoa.dto.v1.PessoaResponse
+import br.com.softwalter.presentation.pessoa.dto.v2.PessoaRequest
 import org.springframework.http.MediaType
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.*
 @Controller
 @RestController
-@RequestMapping("/cadastro/v1")
-class PessoaController(
+@RequestMapping("/cadastro/v2")
+class PessoaControllerv2(
     val pessoaUseCase: PessoaUseCase,
     val pessoaMapper: PessoaMapper
 ) {
-
-    @GetMapping(
-        value = ["/pessoas/{id_pessoa}"],
-        produces = [MediaType.APPLICATION_JSON_VALUE]
-    )
-    fun buscarPessoa(
-        @PathVariable(value = "id_pessoa") idPessoa: Long
-    ): PessoaResponse? {
-        return pessoaUseCase.buscarPessoaPorId(idPessoa)
-    }
 
     @PostMapping(
         value = ["pessoas"],
@@ -33,7 +23,7 @@ class PessoaController(
     fun salvarPessoa(
         @RequestBody pessoaRequest: PessoaRequest
     ): PessoaResponse? {
-        val pessoa = pessoaMapper.pessoaRequestToPessoa(pessoaRequest)
+        val pessoa = pessoaMapper.pessoaRequestToPessoav2(pessoaRequest)
         return pessoaUseCase.salvarPessoa(pessoa)
     }
 }

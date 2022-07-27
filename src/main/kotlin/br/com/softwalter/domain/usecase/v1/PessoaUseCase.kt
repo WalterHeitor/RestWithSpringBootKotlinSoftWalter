@@ -1,7 +1,7 @@
 package br.com.softwalter.domain.usecase.v1
 
 import br.com.softwalter.domain.model.Pessoa
-import br.com.softwalter.presentation.pessoa.dto.PessoaResponse
+import br.com.softwalter.presentation.pessoa.dto.v1.PessoaResponse
 
 interface PessoaUseCase {
 

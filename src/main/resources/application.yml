@@ -1,22 +1,4 @@
 spring:
   profiles:
     active: prod
-#  profiles: hom
-#spring:
-#  datasource:
-#    url: jdbc:h2:mem:mydb;MODE=LEGACY
-#    username: sa
-#    password:
-#    driverClassName: org.h2.Driver
-#
-#    jpa:
-#      database-platform: org.hibernate.dialect.H2Dialect
-#      hibernate:
-#        ddl-auto: create
-#        dialect: org.hibernate.dialect.H2Dialect
-#      properties:
-#        hibernate:
-#          show_sql: true
-#          use_sql_comments: true
-#          format_sql: true
-#
+
