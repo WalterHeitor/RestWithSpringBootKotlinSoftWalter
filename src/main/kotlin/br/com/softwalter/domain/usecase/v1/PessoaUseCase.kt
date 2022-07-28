@@ -10,4 +10,8 @@ interface PessoaUseCase {
     fun buscarPessoas() : List<PessoaResponse>
 
     fun salvarPessoa(pessoa: Pessoa) : PessoaResponse?
+
+    abstract fun buscarPessoa(): MutableList<PessoaResponse>
+
+    abstract fun atualizarPessoa(idPessoa: Long): PessoaResponse?
 }

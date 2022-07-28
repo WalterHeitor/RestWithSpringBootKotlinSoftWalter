@@ -10,7 +10,9 @@ data class Pessoa(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var idPessoa: Long? = null,
     @Column(name = "nome")
-    var nome: String,
+    var nome: String = "",
     @Column(name = "email")
-    var email: String,
-)
+    var email: String = "",
+) {
+
+}

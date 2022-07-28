@@ -4,7 +4,8 @@ services:
     image: mysql:8.0
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: root
+#      MYSQL_ROOT_PASSWORD: root
+#      MYSQL_RANDOM_ROOT_PASSWORD: root
       MYSQL_DATABASE: rest_spring_kotlin
       MYSQL_USER: root
       MYSQL_PASSWORD: admin1234

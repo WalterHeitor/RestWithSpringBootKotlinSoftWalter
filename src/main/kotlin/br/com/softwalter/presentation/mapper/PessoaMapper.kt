@@ -10,4 +10,5 @@ interface PessoaMapper {
     fun listPessoaToResponsesPessoas(pessoas: MutableList<Pessoa>): List<PessoaResponse>
     fun pessoaRequestToPessoa(pessoaRequest: PessoaRequest) : Pessoa
     fun pessoaRequestToPessoav2(pessoaRequest: PessoaRequestv2): Pessoa
+    fun pessoasToListResponse(pessoas: MutableList<Pessoa>): MutableList<PessoaResponse>
 }

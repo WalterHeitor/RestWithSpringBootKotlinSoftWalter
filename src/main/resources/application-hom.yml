@@ -2,7 +2,7 @@ spring:
   main:
     allow-circular-references: true
   datasource:
-    driverClassName: com.mysql.jdbc.Driver
+    driverClassName: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/rest_spring_kotlin?useTimezone=true&serverTimezone=UTC
     username: root
     password: admin1234
@@ -10,6 +10,7 @@ spring:
       hibernate.ddl-auto: update
       generate-ddl: true
       show-sql: true
+      #conexao com dbaver rest_spring_kotlin?allowPublicKeyRetrieval=true&useSSL=false
 #      database-platform: org.hibernate.dialect.MySQL5Dialect
 #      hibernate:
 #        ddl-auto: update

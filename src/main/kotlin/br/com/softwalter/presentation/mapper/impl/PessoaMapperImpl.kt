@@ -31,4 +31,8 @@ class PessoaMapperImpl : PessoaMapper {
     override fun pessoaRequestToPessoav2(pessoaRequest: br.com.softwalter.presentation.pessoa.dto.v2.PessoaRequest): Pessoa {
         return  Pessoa(nome = pessoaRequest.nome, email = pessoaRequest.email)
     }
+
+    override fun pessoasToListResponse(pessoas: MutableList<Pessoa>): MutableList<PessoaResponse> {
+        return pessoas.map { pessoa -> PessoaResponse(pessoa.idPessoa, pessoa.nome, pessoa.email) }.toMutableList()
+    }
 }
