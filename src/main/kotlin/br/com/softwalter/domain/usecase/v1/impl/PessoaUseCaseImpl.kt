@@ -6,7 +6,6 @@ import br.com.softwalter.domain.usecase.v1.PessoaUseCase
 import br.com.softwalter.presentation.mapper.PessoaMapper
 import br.com.softwalter.presentation.pessoa.PessoaController
 import br.com.softwalter.presentation.pessoa.dto.v1.PessoaResponse
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo
 import org.springframework.stereotype.Service
 import java.util.logging.Logger
@@ -15,30 +14,19 @@ import kotlin.collections.ArrayList
 @Service
 class PessoaUseCaseImpl(
     val pessoaMapper: PessoaMapper,
-
+    val  pessoaRepository: PessoaRepository
     ) : PessoaUseCase {
     private val logger = Logger.getLogger(PessoaUseCaseImpl::class.java.name)
-    @Autowired
-    private lateinit var  pessoaRepository: PessoaRepository
+
     override fun buscarPessoaPorId(idPessoa: Long): PessoaResponse? {
+
         val pessoa: Pessoa? = buscandoPessoa(idPessoa)
-
         logger.info("usecase - pessoa encontrada no Banco de Dados ...")
-
         val pessoaResponse: PessoaResponse =
             pessoaMapper.pessoaToPessoaResponse(pessoa!!)
         adicionadoHateoas(pessoaResponse)
-        return pessoaResponse
-    }
 
-    override fun buscarPessoas(): List<PessoaResponse> {
-        logger.info("usecase - buscando pessoa no Banco de Dados ...")
-        val pessoas: MutableList<Pessoa> = ArrayList()
-        val responsesPessoas = pessoaMapper.listPessoaToResponsesPessoas(pessoas)
-        for (response in responsesPessoas) {
-            adicionadoHateoas(response)
-        }
-        return responsesPessoas
+        return pessoaResponse
     }
 
     override fun salvarPessoa(pessoa: Pessoa): PessoaResponse? {
