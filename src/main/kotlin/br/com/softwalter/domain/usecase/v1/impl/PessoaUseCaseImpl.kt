@@ -3,6 +3,7 @@ package br.com.softwalter.domain.usecase.v1.impl
 import br.com.softwalter.domain.model.Pessoa
 import br.com.softwalter.domain.repository.PessoaRepository
 import br.com.softwalter.domain.usecase.v1.PessoaUseCase
+import br.com.softwalter.exceptions.PessoaNullException
 import br.com.softwalter.presentation.mapper.PessoaMapper
 import br.com.softwalter.presentation.pessoa.PessoaController
 import br.com.softwalter.presentation.pessoa.dto.v1.PessoaResponse
@@ -29,7 +30,8 @@ class PessoaUseCaseImpl(
         return pessoaResponse
     }
 
-    override fun salvarPessoa(pessoa: Pessoa): PessoaResponse? {
+    override fun salvarPessoa(pessoa: Pessoa?): PessoaResponse? {
+        if (pessoa == null) throw PessoaNullException()
         logger.info("usecase - Salvando pessoa no Banco de Dados ...")
         val pessoaResp: Pessoa = pessoaRepository.save(pessoa)
         logger.info("usecase - pessoa salva com sucesso no Banco de Dados ...")
@@ -39,11 +41,11 @@ class PessoaUseCaseImpl(
         return pessoaResponse
     }
 
-    override fun buscarPessoa(): MutableList<PessoaResponse> {
+    override fun buscarPessoas(): List<PessoaResponse> {
         logger.info("usecase - buscando pessoas no Banco de Dados ...")
         val pessoas: MutableList<Pessoa> = pessoaRepository.findAll()
         logger.info("usecase - busca de pessoas no Banco de Dados ...")
-        val pessoasResponse: MutableList<PessoaResponse>  =  pessoaMapper.pessoasToListResponse(pessoas)
+        val pessoasResponse: List<PessoaResponse> =  pessoaMapper.pessoasToListResponse(pessoas)
         for (response in pessoasResponse) {
             adicionadoHateoas(response)
         }
@@ -52,7 +54,9 @@ class PessoaUseCaseImpl(
 
     override fun atualizarPessoa(idPessoa: Long): PessoaResponse? {
         val pessoa: Pessoa? = buscandoPessoa(idPessoa)
-        return pessoa?.let { pessoaMapper.pessoaToPessoaResponse(it) }
+        val pessoaPersist = pessoaRepository.save(pessoa!!)
+        logger.info("usecase - pessoa atualizada com sucesso no Banco de Dados ...")
+        return pessoaPersist.let { pessoaMapper.pessoaToPessoaResponse(it) }
     }
 
     private fun buscandoPessoa(idPessoa: Long): Pessoa? {

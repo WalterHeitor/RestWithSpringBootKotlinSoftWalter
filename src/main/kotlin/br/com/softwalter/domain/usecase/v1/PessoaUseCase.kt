@@ -7,9 +7,9 @@ interface PessoaUseCase {
 
     fun buscarPessoaPorId(idPessoa: Long) : PessoaResponse?
 
-    fun salvarPessoa(pessoa: Pessoa) : PessoaResponse?
+    fun salvarPessoa(pessoa: Pessoa?) : PessoaResponse?
 
-    fun buscarPessoa(): MutableList<PessoaResponse>
+    fun buscarPessoas(): List<PessoaResponse>
 
     fun atualizarPessoa(idPessoa: Long): PessoaResponse?
 }

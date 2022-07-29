@@ -1,6 +1,7 @@
 package br.com.softwalter.exceptions.handler
 
 import br.com.softwalter.exceptions.ExceptionResponse
+import br.com.softwalter.exceptions.PessoaNullException
 import br.com.softwalter.exceptions.UnsupportedMathOperationException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -26,6 +27,16 @@ class CustomizedResponseEntityExceptionHandler : ResponseEntityExceptionHandler(
     }
 
     @ExceptionHandler(UnsupportedMathOperationException::class)
+    fun handleAUnsuporttedxceptions(ex: Exception, request: WebRequest) : ResponseEntity<ExceptionResponse> {
+        val exceptionResponse = ExceptionResponse(
+            Date(),
+            ex.message,
+            request.getDescription(false)
+        )
+        return ResponseEntity<ExceptionResponse>(exceptionResponse, HttpStatus.BAD_REQUEST)
+    }
+
+    @ExceptionHandler(PessoaNullException::class)
     fun handleABadRequestxceptions(ex: Exception, request: WebRequest) : ResponseEntity<ExceptionResponse> {
         val exceptionResponse = ExceptionResponse(
             Date(),

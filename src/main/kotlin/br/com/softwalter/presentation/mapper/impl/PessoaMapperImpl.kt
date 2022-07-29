@@ -18,12 +18,6 @@ class PessoaMapperImpl : PessoaMapper {
         )
     }
 
-    override fun listPessoaToResponsesPessoas(pessoas: MutableList<Pessoa>): List<PessoaResponse> {
-        var pessoasResponsee: MutableList<PessoaResponse> = ArrayList()
-
-        return pessoasResponsee
-    }
-
     override fun pessoaRequestToPessoa(pessoaRequest: PessoaRequest): Pessoa {
         return  Pessoa(nome = pessoaRequest.nome, email = pessoaRequest.email)
     }
@@ -32,7 +26,12 @@ class PessoaMapperImpl : PessoaMapper {
         return  Pessoa(nome = pessoaRequest.nome, email = pessoaRequest.email)
     }
 
-    override fun pessoasToListResponse(pessoas: MutableList<Pessoa>): MutableList<PessoaResponse> {
-        return pessoas.map { pessoa -> PessoaResponse(pessoa.idPessoa, pessoa.nome, pessoa.email) }.toMutableList()
+    override fun pessoasToListResponse(pessoas: MutableList<Pessoa>): List<PessoaResponse> {
+//        return pessoas.map { pessoa ->
+//            PessoaResponse(pessoa.idPessoa, pessoa.nome, pessoa.email) }.toMutableList()
+        val list = pessoas.map { pessoa: Pessoa ->
+            PessoaResponse(pessoa.idPessoa, pessoa.nome, pessoa.email)
+        }.toCollection(mutableListOf())
+        return list
     }
 }

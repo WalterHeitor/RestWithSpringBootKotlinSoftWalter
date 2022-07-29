@@ -1,6 +1,5 @@
 package br.com.softwalter.presentation.pessoa
 
-import br.com.softwalter.domain.model.Pessoa
 import br.com.softwalter.domain.usecase.v1.PessoaUseCase
 import br.com.softwalter.presentation.mapper.PessoaMapper
 import br.com.softwalter.presentation.pessoa.dto.v1.PessoaRequest
@@ -31,8 +30,8 @@ class PessoaController(
     @GetMapping(
         produces = [MediaType.APPLICATION_JSON_VALUE]
     )
-    fun buscarListPessoa(): ResponseEntity<MutableList<PessoaResponse>> {
-        return ResponseEntity.ok(pessoaUseCase.buscarPessoa())
+    fun buscarListPessoa(): ResponseEntity<List<PessoaResponse>> {
+        return ResponseEntity.ok(pessoaUseCase.buscarPessoas())
     }
 
     @PostMapping(
