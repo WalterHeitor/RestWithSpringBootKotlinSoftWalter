@@ -1,8 +1,8 @@
-package br.com.softwalter.domain.usecase.v1.impl
+package br.com.softwalter.domain.usecase.impl
 
 import br.com.softwalter.domain.model.Pessoa
 import br.com.softwalter.domain.repository.PessoaRepository
-import br.com.softwalter.domain.usecase.v1.PessoaUseCase
+import br.com.softwalter.domain.usecase.PessoaUseCase
 import br.com.softwalter.exceptions.PessoaNullException
 import br.com.softwalter.presentation.mapper.PessoaMapper
 import br.com.softwalter.presentation.pessoa.PessoaController

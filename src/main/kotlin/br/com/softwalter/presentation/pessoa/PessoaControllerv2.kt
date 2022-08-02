@@ -1,6 +1,6 @@
 package br.com.softwalter.presentation.pessoa
 
-import br.com.softwalter.domain.usecase.v1.PessoaUseCase
+import br.com.softwalter.domain.usecase.PessoaUseCase
 import br.com.softwalter.presentation.mapper.PessoaMapper
 import br.com.softwalter.presentation.pessoa.dto.v1.PessoaResponse
 import br.com.softwalter.presentation.pessoa.dto.v2.PessoaRequest

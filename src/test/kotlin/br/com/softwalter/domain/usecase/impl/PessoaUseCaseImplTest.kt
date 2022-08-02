@@ -1,4 +1,4 @@
-package br.com.softwalter.domain.usecase.v1.impl
+package br.com.softwalter.domain.usecase.impl
 
 import br.com.softwalter.domain.model.Pessoa
 import br.com.softwalter.domain.repository.PessoaRepository
