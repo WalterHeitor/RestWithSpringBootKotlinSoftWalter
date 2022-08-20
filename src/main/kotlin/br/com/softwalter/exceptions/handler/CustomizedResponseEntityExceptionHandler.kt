@@ -1,6 +1,7 @@
 package br.com.softwalter.exceptions.handler
 
 import br.com.softwalter.exceptions.ExceptionResponse
+import br.com.softwalter.exceptions.InvalidJwtAutenticationException
 import br.com.softwalter.exceptions.PessoaNullException
 import br.com.softwalter.exceptions.UnsupportedMathOperationException
 import org.springframework.http.HttpStatus
@@ -44,5 +45,14 @@ class CustomizedResponseEntityExceptionHandler : ResponseEntityExceptionHandler(
             request.getDescription(false)
         )
         return ResponseEntity<ExceptionResponse>(exceptionResponse, HttpStatus.BAD_REQUEST)
+    }
+    @ExceptionHandler(InvalidJwtAutenticationException::class)
+    fun handleInvalidJwtAutenticationException(ex: Exception, request: WebRequest) : ResponseEntity<ExceptionResponse> {
+        val exceptionResponse = ExceptionResponse(
+            Date(),
+            ex.message,
+            request.getDescription(false)
+        )
+        return ResponseEntity<ExceptionResponse>(exceptionResponse, HttpStatus.FORBIDDEN)
     }
 }

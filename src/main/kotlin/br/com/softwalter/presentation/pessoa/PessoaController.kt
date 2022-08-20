@@ -24,6 +24,7 @@ class PessoaController(
     val pessoaMapper: PessoaMapper
 ) {
 
+    @CrossOrigin(origins = ["http://localhost:8080"])
     @GetMapping(
         value = ["/{id_pessoa}"],
         produces = [MediaType.APPLICATION_JSON_VALUE]
@@ -57,6 +58,7 @@ class PessoaController(
         return ResponseEntity.ok(pessoaUseCase.buscarPessoas())
     }
 
+    @CrossOrigin(origins = ["http://localhost:8080", "https://softWalter.com.br"])
     @PostMapping(
         consumes = [MediaType.APPLICATION_JSON_VALUE],
         produces = [MediaType.APPLICATION_JSON_VALUE]

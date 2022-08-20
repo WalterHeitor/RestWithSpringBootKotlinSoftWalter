@@ -1,3 +1,10 @@
+cors:
+  origin_patterns: http://locahost:8080,http://locahost:3000,http://softWalter.com.br,
+security:
+  jwt:
+    token:
+      secret-key: 36cr37
+      expire-length: 3600000
 spring:
   h2:
     console:
@@ -20,3 +27,4 @@ spring:
           show_sql: true
           use_sql_comments: true
           format_sql: true
+          dialect: org.hibernate.dialect.H2Dialect
