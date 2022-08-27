@@ -16,3 +16,9 @@ spring:
     hibernate.ddl-auto: update
     generate-ddl: true
     show-sql: true
+spring-doc:
+  path-to-math:
+    - /auth/**
+    - /cadastro/**
+  swagger-iu:
+    use-root-path: true

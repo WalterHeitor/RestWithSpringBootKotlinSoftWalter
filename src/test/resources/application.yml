@@ -18,3 +18,9 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
+spring-doc:
+  path-to-math:
+    - /auth/**
+    - /cadastro/**
+  swagger-iu:
+    use-root-path: true

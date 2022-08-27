@@ -1,74 +1,48 @@
 package br.com.softwalter.domain.usecase.impl
 
-import br.com.softwalter.domain.model.Pessoa
-import br.com.softwalter.domain.repository.PessoaRepository
-import br.com.softwalter.domain.usecase.PessoaUseCase
-import br.com.softwalter.exceptions.PessoaNullException
-import br.com.softwalter.presentation.mapper.PessoaMapper
-import br.com.softwalter.presentation.pessoa.PessoaController
-import br.com.softwalter.presentation.pessoa.dto.v1.PessoaResponse
-import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo
+import br.com.softwalter.domain.repository.rbac.UsersRepository
+import br.com.softwalter.domain.usecase.AuthUseCase
+import br.com.softwalter.presentation.users.AccountCredentialsRequest
+import br.com.softwalter.presentation.users.TokenResponse
+import br.com.softwalter.security.jwt.JwtTokenProvider
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.ResponseEntity
+import org.springframework.security.authentication.AuthenticationManager
+import org.springframework.security.authentication.BadCredentialsException
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
+import org.springframework.security.core.AuthenticationException
+import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.stereotype.Service
 import java.util.logging.Logger
-import kotlin.collections.ArrayList
 
 @Service
 class AuthUseCaseImpl(
-    val pessoaMapper: PessoaMapper,
-    val  pessoaRepository: PessoaRepository
-    ) : PessoaUseCase {
+    val userRepository: UsersRepository,
+    ) : AuthUseCase {
+
+    @Autowired
+    private lateinit var authenticationManager: AuthenticationManager
+    @Autowired
+    private lateinit var tokenProvider: JwtTokenProvider
     private val logger = Logger.getLogger(AuthUseCaseImpl::class.java.name)
+    override fun signin(data: AccountCredentialsRequest): ResponseEntity<*> {
+        logger.info("trying log ser ${data.userName}")
+        return try {
+            val username = data.userName
+            val password = data.password
 
-    override fun buscarPessoaPorId(idPessoa: Long): PessoaResponse? {
+//            authenticationManager
+//                .authenticate(UsernamePasswordAuthenticationToken(username, password))
 
-        val pessoa: Pessoa? = buscandoPessoa(idPessoa)
-        logger.info("usecase - pessoa encontrada no Banco de Dados ...")
-        val pessoaResponse: PessoaResponse =
-            pessoaMapper.pessoaToPessoaResponse(pessoa!!)
-        adicionadoHateoas(pessoaResponse)
-
-        return pessoaResponse
-    }
-
-    override fun salvarPessoa(pessoa: Pessoa?): PessoaResponse? {
-        if (pessoa == null) throw PessoaNullException()
-        logger.info("usecase - Salvando pessoa no Banco de Dados ...")
-        val pessoaResp: Pessoa = pessoaRepository.save(pessoa)
-        logger.info("usecase - pessoa salva com sucesso no Banco de Dados ...")
-        val pessoaResponse: PessoaResponse =
-            pessoaMapper.pessoaToPessoaResponse(pessoaResp)
-        adicionadoHateoas(pessoaResponse)
-        return pessoaResponse
-    }
-
-    override fun buscarPessoas(): List<PessoaResponse> {
-        logger.info("usecase - buscando pessoas no Banco de Dados ...")
-        val pessoas: MutableList<Pessoa> = pessoaRepository.findAll()
-        logger.info("usecase - busca de pessoas no Banco de Dados ...")
-        val pessoasResponse: List<PessoaResponse> =  pessoaMapper.pessoasToListResponse(pessoas)
-        for (response in pessoasResponse) {
-            adicionadoHateoas(response)
+            val user = userRepository.findByUserName(username)
+            val tokenResponse: TokenResponse = if (user != null) {
+                tokenProvider.createAccesToken(username!!, user.roles)
+            } else {
+                throw UsernameNotFoundException("username: $username not found..")
+            }
+            ResponseEntity.ok(tokenResponse)
+        } catch (exception: AuthenticationException) {
+            throw BadCredentialsException("usuario o senha invalido")
         }
-        return pessoasResponse
-    }
-
-    override fun atualizarPessoa(idPessoa: Long): PessoaResponse? {
-        val pessoa: Pessoa? = buscandoPessoa(idPessoa)
-        val pessoaPersist = pessoaRepository.save(pessoa!!)
-        logger.info("usecase - pessoa atualizada com sucesso no Banco de Dados ...")
-        return pessoaPersist.let { pessoaMapper.pessoaToPessoaResponse(it) }
-    }
-
-    private fun buscandoPessoa(idPessoa: Long): Pessoa? {
-        logger.info("usecase - buscando pessoa no Banco de Dados ...")
-        val pessoa: Pessoa? = pessoaRepository.findById(idPessoa)
-            .orElseThrow { RuntimeException("lancar exectipito banco") }
-        return pessoa
-    }
-
-    private fun adicionadoHateoas(pessoaResponse: PessoaResponse) {
-        val withSeltRel = linkTo(PessoaController::class.java)
-            .slash(pessoaResponse.idPessoa).withSelfRel()
-        pessoaResponse.add(withSeltRel)
     }
 }

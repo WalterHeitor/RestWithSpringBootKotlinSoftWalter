@@ -37,7 +37,7 @@ class JwtTokenProvider {
         algorithm = Algorithm.HMAC256(secretKey.toByteArray())
     }
 
-    fun createAccesToken(userName: String, roles: List<String>) : TokenResponse{
+    fun createAccesToken(userName: String, roles: List<String?>) : TokenResponse {
 
         val now = Date()
         val validity = Date(now.time + validyMilliseconds)
@@ -55,7 +55,7 @@ class JwtTokenProvider {
         )
     }
 
-    private fun getAccesstoken(userName: String, roles: List<String>, now: Date, validity: Date): String {
+    private fun getAccesstoken(userName: String, roles: List<String?>, now: Date, validity: Date): String {
 
         val issuerURL: String = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString()
 
@@ -69,7 +69,7 @@ class JwtTokenProvider {
             .trim()
     }
 
-    private fun getRefreshToken(userName: String, roles: List<String>, now: Date): String {
+    private fun getRefreshToken(userName: String, roles: List<String?>, now: Date): String {
 
         val validityRefreshToken = Date(now.time + validyMilliseconds * 3)
 
