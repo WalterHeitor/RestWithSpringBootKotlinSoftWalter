@@ -6,4 +6,7 @@ import org.springframework.http.ResponseEntity
 interface AuthUseCase {
 
     fun signin(data: AccountCredentialsRequest) : ResponseEntity<*>
+
+    fun refreshToken(username: String, refreshToken: String): ResponseEntity<*>
+
 }

@@ -47,9 +47,11 @@ class SecurityConfig : WebSecurityConfigurerAdapter() {
                 .antMatchers(
                     "/auth/signin", "/auth/refresh",
                     "/api-docs/**", "/swagger-ui/**",
-                    "/cadastro/v1/pessoas/**", "*/h2-console/**")
+                    "/cadastro/v1/pessoas/**", "*/h2-console/**",
+                "/auth/**")
                 .permitAll()
             .antMatchers("/cadastro/v1/produtos/**").authenticated()
+            .antMatchers("/cadastro/v1/pessoas/**").authenticated()
             .antMatchers("/users").denyAll()
             .and()
             .cors()

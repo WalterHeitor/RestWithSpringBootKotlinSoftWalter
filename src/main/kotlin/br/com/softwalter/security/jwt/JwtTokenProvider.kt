@@ -26,6 +26,10 @@ class JwtTokenProvider {
     @Value("\${security.jwt.token.expire-length:3600000}")
     private var validyMilliseconds: Long = 3_600_000 // 1h
 
+    companion object {
+        const val BEARER = "Bearer "
+    }
+
     @Autowired
     private lateinit var userDetailsService: UserDetailsService
 
@@ -53,6 +57,18 @@ class JwtTokenProvider {
             expiration = validity
 
         )
+    }
+
+
+    fun refreshToken(refreshToken: String) : TokenResponse {
+
+        var token: String = ""
+        if (refreshToken.contains(BEARER)) token = refreshToken.substring(BEARER.length)
+        val verifier: JWTVerifier = JWT.require(algorithm).build()
+        val decodeJWT: DecodedJWT = verifier.verify(token)
+        val userName: String = decodeJWT.subject
+        val roles: List<String> = decodeJWT.getClaim("roles").asList(String::class.java)
+        return createAccesToken(userName, roles)
     }
 
     private fun getAccesstoken(userName: String, roles: List<String?>, now: Date, validity: Date): String {
@@ -95,9 +111,9 @@ class JwtTokenProvider {
     }
 
     fun resolveToken(req: HttpServletRequest): String? {
-        val bearerToken = req.getHeader("Authorizaton")
-        return if (!bearerToken.isNullOrBlank() && bearerToken.startsWith("Bearer ")) {
-            bearerToken.substring("Bearer ".length)
+        val bearerToken = req.getHeader("Authorization")
+        return if (!bearerToken.isNullOrBlank() && bearerToken.startsWith(BEARER)) {
+            bearerToken.substring(BEARER.length)
         } else null
     }
 

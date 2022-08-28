@@ -3,6 +3,8 @@ package br.com.softwalter.integations.controller.cors.withjson
 import br.com.softwalter.confisTest.ConfigsTest
 import br.com.softwalter.integations.dto.PessoaResponse
 import br.com.softwalter.integations.testcontainers.AbstractIntegrationTest
+import br.com.softwalter.presentation.users.AccountCredentialsRequest
+import br.com.softwalter.presentation.users.TokenResponse
 import io.restassured.RestAssured
 import io.restassured.builder.RequestSpecBuilder
 import io.restassured.filter.log.LogDetail
@@ -24,12 +26,38 @@ class PersonControllerCorsWithJson : AbstractIntegrationTest() {
     private lateinit var objectMapper: ObjectMapper
     private lateinit var pessoaResponse: PessoaResponse
 
+    private lateinit var token: String
+
     @BeforeAll
     fun setupTests() {
 
         objectMapper = ObjectMapper()
         objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
         pessoaResponse = PessoaResponse()
+        token = ""
+    }
+
+    @Test
+    @Order(0)
+    fun autorizacao() {
+        val accountCredentialsRequest: AccountCredentialsRequest = AccountCredentialsRequest(
+            userName = "leandro",
+            password = "adimn123"
+        )
+
+        token = RestAssured.given()
+            .basePath("/auth/signin")
+                .port(ConfigsTest.SERVER_PORT)
+                .contentType(ConfigsTest.CONTENT_TYPE_JSON)
+                .body(accountCredentialsRequest)
+            .`when`()
+                .post()
+                    .then()
+            .statusCode(200)
+                .extract()
+                .body()
+            .`as`(TokenResponse::class.java)
+            .accessToken!!
     }
 
     @Test
@@ -43,6 +71,8 @@ class PersonControllerCorsWithJson : AbstractIntegrationTest() {
                 ConfigsTest.HEADER_PARAM_ORIGIN,
                 ConfigsTest.ORIGIN_SOFTWALTER
             )
+//            .addHeader(ConfigsTest.READER_PARAM_AUTHORIZATION,
+//            "Bearer $token")
             .setBasePath("/cadastro/v1/pessoas")
             .setPort(ConfigsTest.SERVER_PORT)
             .addFilter(RequestLoggingFilter(LogDetail.ALL))
@@ -79,6 +109,8 @@ class PersonControllerCorsWithJson : AbstractIntegrationTest() {
                 ConfigsTest.HEADER_PARAM_ORIGIN,
                 ConfigsTest.ORIGIN_WALTERSOFT
             )
+//            .addHeader(ConfigsTest.READER_PARAM_AUTHORIZATION,
+//                "Bearer $token")
             .setBasePath("/cadastro/v1/pessoas")
             .setPort(ConfigsTest.SERVER_PORT)
             .addFilter(RequestLoggingFilter(LogDetail.ALL))
@@ -92,7 +124,7 @@ class PersonControllerCorsWithJson : AbstractIntegrationTest() {
             .`when`()
             .post()
             .then()
-            .statusCode(403 )
+            .statusCode(403)
             .extract()
             .body()
             .asString()
@@ -111,6 +143,8 @@ class PersonControllerCorsWithJson : AbstractIntegrationTest() {
                 ConfigsTest.HEADER_PARAM_ORIGIN,
                 ConfigsTest.ORIGIN_LOCALHOST
             )
+//            .addHeader(ConfigsTest.READER_PARAM_AUTHORIZATION,
+//                "Bearer $token")
             .setBasePath("/cadastro/v1/pessoas")
             .setPort(ConfigsTest.SERVER_PORT)
             .addFilter(RequestLoggingFilter(LogDetail.ALL))
@@ -148,6 +182,8 @@ class PersonControllerCorsWithJson : AbstractIntegrationTest() {
                 ConfigsTest.HEADER_PARAM_ORIGIN,
                 ConfigsTest.ORIGIN_WALTERSOFT
             )
+//            .addHeader(ConfigsTest.READER_PARAM_AUTHORIZATION,
+//                "Bearer $token")
             .setBasePath("/cadastro/v1/pessoas")
             .setPort(ConfigsTest.SERVER_PORT)
             .addFilter(RequestLoggingFilter(LogDetail.ALL))
