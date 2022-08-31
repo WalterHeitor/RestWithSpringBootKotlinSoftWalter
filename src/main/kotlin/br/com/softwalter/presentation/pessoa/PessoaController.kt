@@ -79,4 +79,14 @@ class PessoaController(
     ): ResponseEntity<PessoaResponse?> {
         return ResponseEntity.ok(pessoaUseCase.atualizarPessoa(idPessoa))
     }
+
+    @PatchMapping(
+        value = ["/{id_pessoa}"],
+        produces = [MediaType.APPLICATION_JSON_VALUE]
+    )
+    fun desabilitarPessoaPorId(
+        @PathVariable(value = "id_pessoa") idPessoa: Long
+    ): ResponseEntity<PessoaResponse?> {
+        return ResponseEntity.ok(pessoaUseCase.desbilitarPessoaPorId(idPessoa))
+    }
 }

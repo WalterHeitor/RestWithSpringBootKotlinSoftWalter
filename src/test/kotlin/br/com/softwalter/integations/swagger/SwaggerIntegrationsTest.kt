@@ -24,6 +24,5 @@ class SwaggerIntegrationsTest : AbstractIntegrationTest() {
             .body()
                 .asString()
         Assertions.assertTrue(content.contains("Swagger UI"))
-
     }
 }

@@ -16,7 +16,7 @@ internal class PessoaMapperImplTest{
         //input
         val pessoa = Pessoa(1, "Walter", "walter@email")
         //output
-        val expected: PessoaResponse = PessoaResponse(1, "Walter", "walter@email")
+        val expected: PessoaResponse = PessoaResponse(1, "Walter", "walter@email", true)
         //execute
         val actual: PessoaResponse = pessoaMapper.pessoaToPessoaResponse(pessoa)
         //validation

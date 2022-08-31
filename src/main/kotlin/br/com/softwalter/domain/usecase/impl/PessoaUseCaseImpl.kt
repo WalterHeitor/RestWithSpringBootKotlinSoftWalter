@@ -9,6 +9,7 @@ import br.com.softwalter.presentation.pessoa.PessoaController
 import br.com.softwalter.presentation.pessoa.dto.v1.PessoaResponse
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import java.util.logging.Logger
 import kotlin.collections.ArrayList
 
@@ -57,6 +58,20 @@ class PessoaUseCaseImpl(
         val pessoaPersist = pessoaRepository.save(pessoa!!)
         logger.info("usecase - pessoa atualizada com sucesso no Banco de Dados ...")
         return pessoaPersist.let { pessoaMapper.pessoaToPessoaResponse(it) }
+    }
+
+    @Transactional
+    override fun desbilitarPessoaPorId(idPessoa: Long): PessoaResponse? {
+
+        val pessoa: Pessoa? = buscandoPessoa(idPessoa)
+        logger.info("desabilitando pessoa no Banco de Dados ... ")
+//        pessoaRepository.desabilitarPessoa(idPessoa)
+        logger.info("usecase - pessoa encontrada no Banco de Dados ...")
+        val pessoaResponse: PessoaResponse =
+            pessoaMapper.pessoaToPessoaResponse(pessoa!!)
+        adicionadoHateoas(pessoaResponse)
+
+        return pessoaResponse
     }
 
     private fun buscandoPessoa(idPessoa: Long): Pessoa? {

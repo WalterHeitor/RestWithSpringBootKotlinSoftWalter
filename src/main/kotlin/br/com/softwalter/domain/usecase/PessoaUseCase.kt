@@ -12,4 +12,6 @@ interface PessoaUseCase {
     fun buscarPessoas(): List<PessoaResponse>
 
     fun atualizarPessoa(idPessoa: Long): PessoaResponse?
+
+    fun desbilitarPessoaPorId(idPessoa: Long): PessoaResponse?
 }

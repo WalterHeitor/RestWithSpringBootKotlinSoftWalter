@@ -35,12 +35,8 @@ open class AbstractIntegrationTest {
                     "spring.datasource.url", mysql.jdbcUrl,
                     "spring.datasource.username", mysql.username,
                     "spring.datasource.password", mysql.password,
-
                 )
             }
         }
-
-
     }
-
 }

@@ -10,6 +10,8 @@ data class PessoaResponse (
     var nome: String,
     @field:JsonProperty("email")
     var email: String,
+    @field:JsonProperty("ativo")
+    var ativo: Boolean
         ) : RepresentationModel<PessoaResponse>() {
 
 }

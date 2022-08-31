@@ -6,15 +6,15 @@ import br.com.softwalter.presentation.pessoa.dto.v1.PessoaResponse
 object PessoaResponseMockFactory {
     fun criarPessoaResponse(): PessoaResponse? {
 
-        return PessoaResponse(1, "Walter", "walter@email")
+        return PessoaResponse(1, "Walter", "walter@email", true)
     }
 
     fun criarPessoasResponses(): MutableList<PessoaResponse> {
 
         return mutableListOf<PessoaResponse>(
-            PessoaResponse(1, "Walter", "walter@email"),
-            PessoaResponse(2, "heitor", "heitor@email"),
-            PessoaResponse(3, "maria", "maria@email")
+            PessoaResponse(1, "Walter", "walter@email", true),
+            PessoaResponse(2, "heitor", "heitor@email", true),
+            PessoaResponse(3, "maria", "maria@email", true)
         )
     }
 

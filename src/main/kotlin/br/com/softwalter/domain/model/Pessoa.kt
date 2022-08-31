@@ -13,6 +13,8 @@ data class Pessoa(
     var nome: String = "",
     @Column(name = "email")
     var email: String = "",
+    @Column(name = "ativo")
+    var ativo: Boolean = true
 ) {
 
 }

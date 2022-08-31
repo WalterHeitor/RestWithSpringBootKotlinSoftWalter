@@ -17,6 +17,6 @@ fun main(args: Array<String>) {
 	val passwordEncoder: DelegatingPasswordEncoder = DelegatingPasswordEncoder("pbkdf2", encoders)
 	passwordEncoder.setDefaultPasswordEncoderForMatches(Pbkdf2PasswordEncoder())
 
-	val result = passwordEncoder.encode("foo-bar")
+	val result = passwordEncoder.encode("admin123")
 	println("My hash: $result")
 }

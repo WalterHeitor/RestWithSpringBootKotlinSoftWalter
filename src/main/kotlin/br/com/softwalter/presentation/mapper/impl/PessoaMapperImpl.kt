@@ -14,7 +14,8 @@ class PessoaMapperImpl : PessoaMapper {
         return PessoaResponse(
             pessoa.idPessoa,
             pessoa.nome,
-            pessoa.email
+            pessoa.email,
+            pessoa.ativo
         )
     }
 
@@ -30,7 +31,7 @@ class PessoaMapperImpl : PessoaMapper {
 //        return pessoas.map { pessoa ->
 //            PessoaResponse(pessoa.idPessoa, pessoa.nome, pessoa.email) }.toMutableList()
         val list = pessoas.map { pessoa: Pessoa ->
-            PessoaResponse(pessoa.idPessoa, pessoa.nome, pessoa.email)
+            PessoaResponse(pessoa.idPessoa, pessoa.nome, pessoa.email, pessoa.ativo)
         }.toCollection(mutableListOf())
         return list
     }

@@ -8,7 +8,8 @@ security:
 spring:
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/rest_spring_kotlin?useTimezone=true$serverTimezone=UTC&createDatabaseIsNotExist=true
+#    url: jdbc:mysql://localhost:3306/rest_spring_kotlin?useTimezone=true$serverTimezone=UTC&createDatabaseIsNotExist=true
+    url: jdbc:mysql://localhost:3306/rest_spring_kotlin?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=CONVERT_TO_NULL&serverTimezone=GMT
     username: root
     password: admin1234
   jpa:
