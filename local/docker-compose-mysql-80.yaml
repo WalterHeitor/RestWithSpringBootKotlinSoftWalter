@@ -1,0 +1,21 @@
+version: '3.8'
+services:
+  mysql-compose:
+    image: mysql:8.0
+#    image: mysql:5.7.21
+    volumes:
+      - dbdata:/var/lib/mysql
+    #      - ./PROJETOSINTELLIJ/rest-with-spring-boot-kotlin-soft-walter/rest-with-spring-boot-kotlin-soft-walter/local:/var/lib/postgresql/data
+    restart: always
+    environment:
+#      MYSQL_ROOT_PASSWORD: admin1234
+#      MYSQL_RANDOM_ROOT_PASSWORD: root
+#      MYSQL_ALLOW_EMPTY_PASSWORD: 1
+      MYSQL_DATABASE: rest_spring_kotlin
+#      MYSQL_USER: root
+      MYSQL_DB_USER: root
+      MYSQL_PASSWORD: admin1234
+    ports:
+      - '3306:3306'
+volumes:
+  dbdata:
