@@ -65,7 +65,7 @@ class PessoaUseCaseImpl(
 
         val pessoa: Pessoa? = buscandoPessoa(idPessoa)
         logger.info("desabilitando pessoa no Banco de Dados ... ")
-//        pessoaRepository.desabilitarPessoa(idPessoa)
+        pessoaRepository.desabilitarPessoa(idPessoa)
         logger.info("usecase - pessoa encontrada no Banco de Dados ...")
         val pessoaResponse: PessoaResponse =
             pessoaMapper.pessoaToPessoaResponse(pessoa!!)

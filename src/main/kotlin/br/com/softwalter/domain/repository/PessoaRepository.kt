@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository
 @Repository
 interface PessoaRepository : JpaRepository<Pessoa, Long?> {
 
-//    @Modifying
-//    @Query("UPDATE Pessoa p SET p.ativo = false WHERE p.idPessoa =:idPessoa")
-//    fun desabilitarPessoa(@Param("idPessoa") idPessoa: Long?)
+    @Modifying
+    @Query("UPDATE Pessoa p SET p.ativo = false WHERE p.idPessoa =:idPessoa")
+    fun desabilitarPessoa(@Param("idPessoa") idPessoa: Long?)
 }
