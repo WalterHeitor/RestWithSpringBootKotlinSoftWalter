@@ -7,11 +7,12 @@ import br.com.softwalter.exceptions.PessoaNullException
 import br.com.softwalter.presentation.mapper.PessoaMapper
 import br.com.softwalter.presentation.pessoa.PessoaController
 import br.com.softwalter.presentation.pessoa.dto.v1.PessoaResponse
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.util.logging.Logger
-import kotlin.collections.ArrayList
 
 @Service
 class PessoaUseCaseImpl(
@@ -42,14 +43,15 @@ class PessoaUseCaseImpl(
         return pessoaResponse
     }
 
-    override fun buscarPessoas(): List<PessoaResponse> {
+    override fun buscarPessoas(pageable: Pageable): Page<PessoaResponse> {
         logger.info("usecase - buscando pessoas no Banco de Dados ...")
-        val pessoas: MutableList<Pessoa> = pessoaRepository.findAll()
+        val pessoas: Page<Pessoa> = pessoaRepository.findAll(pageable)
         logger.info("usecase - busca de pessoas no Banco de Dados ...")
-        val pessoasResponse: List<PessoaResponse> =  pessoaMapper.pessoasToListResponse(pessoas)
-        for (response in pessoasResponse) {
-            adicionadoHateoas(response)
-        }
+        val pessoasResponse: Page<PessoaResponse> =  pessoaMapper.pessoasToListResponse(pessoas)
+
+        pessoasResponse.map { pessoaResponse -> pessoaResponse.add(linkTo(PessoaController::class.java)
+            .slash(pessoaResponse.idPessoa).withSelfRel()) }
+
         return pessoasResponse
     }
 

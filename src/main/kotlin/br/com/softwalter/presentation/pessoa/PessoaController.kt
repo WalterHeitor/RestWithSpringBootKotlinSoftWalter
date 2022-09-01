@@ -10,6 +10,10 @@ import io.swagger.v3.oas.annotations.media.Content
 import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.tags.Tag
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Pageable
+import org.springframework.data.domain.Sort
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
@@ -54,8 +58,16 @@ class PessoaController(
             ]),
         ]
     )
-    fun buscarListPessoa(): ResponseEntity<List<PessoaResponse>> {
-        return ResponseEntity.ok(pessoaUseCase.buscarPessoas())
+    fun buscarListPessoa(
+        @RequestParam(value = "page", defaultValue = "0") page: Int,
+        @RequestParam(value = "size", defaultValue = "12") size: Int,
+        @RequestParam(value = "direction", defaultValue = "12") direction: String,
+    ): ResponseEntity<Page<PessoaResponse>> {
+
+        val sortDirection: Sort.Direction =
+            if ("desc".equals(direction, ignoreCase = true)) Sort.Direction.DESC else Sort.Direction.ASC
+        val pageable: Pageable = PageRequest.of(page, size, Sort.by(sortDirection, "nome"))
+        return ResponseEntity.ok(pessoaUseCase.buscarPessoas(pageable))
     }
 
     @CrossOrigin(origins = ["http://localhost:8080", "https://softWalter.com.br"])

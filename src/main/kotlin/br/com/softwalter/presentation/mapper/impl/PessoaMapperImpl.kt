@@ -4,6 +4,7 @@ import br.com.softwalter.domain.model.Pessoa
 import br.com.softwalter.presentation.mapper.PessoaMapper
 import br.com.softwalter.presentation.pessoa.dto.v1.PessoaRequest
 import br.com.softwalter.presentation.pessoa.dto.v1.PessoaResponse
+import org.springframework.data.domain.Page
 import org.springframework.stereotype.Component
 
 @Component
@@ -27,12 +28,12 @@ class PessoaMapperImpl : PessoaMapper {
         return  Pessoa(nome = pessoaRequest.nome, email = pessoaRequest.email)
     }
 
-    override fun pessoasToListResponse(pessoas: MutableList<Pessoa>): List<PessoaResponse> {
+    override fun pessoasToListResponse(pessoas: Page<Pessoa>): Page<PessoaResponse> {
 //        return pessoas.map { pessoa ->
 //            PessoaResponse(pessoa.idPessoa, pessoa.nome, pessoa.email) }.toMutableList()
-        val list = pessoas.map { pessoa: Pessoa ->
+        val pessoas = pessoas.map { pessoa: Pessoa ->
             PessoaResponse(pessoa.idPessoa, pessoa.nome, pessoa.email, pessoa.ativo)
-        }.toCollection(mutableListOf())
-        return list
+        }
+        return pessoas
     }
 }

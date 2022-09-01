@@ -16,6 +16,9 @@ import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.junit.jupiter.MockitoExtension
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Pageable
 import java.util.*
 
 @ExtendWith(MockitoExtension::class)
@@ -61,22 +64,25 @@ internal class PessoaUseCaseImplTest {
     @Test
     fun buscarPessoas() {
 
-        val expectedListRepository: MutableList<Pessoa> = PessoaMockFactory.criarPessoas()
-        Mockito.`when`(pessoaRepository.findAll())
+        val page = 0
+        val size = 12
+        val pageable: Pageable = PageRequest.of(page, size)
+        val expectedListRepository: Page<Pessoa> = PessoaMockFactory.criarPessoas()
+        Mockito.`when`(pessoaRepository.findAll(pageable))
             .thenReturn(expectedListRepository)
-        val expectedPessoaResponse: MutableList<PessoaResponse> = PessoaResponseMockFactory.criarPessoasResponses()
+        val expectedPessoaResponse: Page<PessoaResponse> = PessoaResponseMockFactory.criarPessoasResponses()
         Mockito.`when`(pessoaMapper.pessoasToListResponse(expectedListRepository))
             .thenReturn(expectedPessoaResponse)
         val actualRepository = pessoaRepository.findAll()
         val actualpessoaResponse = pessoaMapper.pessoasToListResponse(expectedListRepository)
-        val actualList = pessoaUseCaseImpl.buscarPessoas()
+        val actualList = pessoaUseCaseImpl.buscarPessoas(pageable)
 
         Assertions.assertNotNull(actualRepository)
         Assertions.assertNotNull(actualpessoaResponse)
         Assertions.assertNotNull(actualList)
-        Assertions.assertEquals(3,actualList.size)
-        Assertions.assertNotNull(actualList[0].links)
-        Assertions.assertNotNull(actualList.get(0).links.toString().contains("</cadastro/v1/pessoas/1>,rel=\"self\""))
+        Assertions.assertEquals(3, actualList.size)
+        Assertions.assertNotNull(actualList.get().toList()[0].links)
+        Assertions.assertNotNull(actualList.get().toList().get(0).links.toString().contains("</cadastro/v1/pessoas/1>,rel=\"self\""))
         Assertions.assertEquals(expectedListRepository, actualRepository)
         Assertions.assertEquals(expectedPessoaResponse, actualpessoaResponse)
         Assertions.assertEquals(expectedPessoaResponse, actualList)
