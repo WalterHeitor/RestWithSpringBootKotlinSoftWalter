@@ -5,6 +5,7 @@ import br.com.softwalter.integations.dto.PessoaResponse
 import br.com.softwalter.integations.testcontainers.AbstractIntegrationTest
 import br.com.softwalter.presentation.users.AccountCredentialsRequest
 import br.com.softwalter.presentation.users.TokenResponse
+import br.com.softwalter.wrappers.WrapperPessoaResponse
 import io.restassured.RestAssured
 import io.restassured.builder.RequestSpecBuilder
 import io.restassured.filter.log.LogDetail
@@ -202,6 +203,32 @@ class PersonControllerCorsWithJson : AbstractIntegrationTest() {
             .asString()
 
         Assertions.assertEquals("Invalid CORS request", content)
+    }
+
+    @Test
+    @Order(5)
+    fun testFindAll() {
+        val content = RestAssured.given()
+            .spec(specification)
+            .contentType(ConfigsTest.CONTENT_TYPE_JSON)
+            .queryParams(
+                "page", 3,
+                "size", 12,
+                "direction", "asc"
+            )
+            .`when`()
+            .get()
+            .then()
+            .statusCode(200)
+            .extract()
+            .body()
+            .asString()
+
+        val wrapper = objectMapper.readValue(content, WrapperPessoaResponse::class.java)
+        val pessoas = wrapper.embedded!!.pessoas
+
+        val item1 = pessoas?.get(0)
+
     }
 
     fun mockPessoaResponse() {

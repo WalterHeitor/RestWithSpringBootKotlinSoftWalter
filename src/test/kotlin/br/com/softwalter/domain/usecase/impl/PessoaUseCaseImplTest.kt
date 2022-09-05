@@ -10,7 +10,6 @@ import br.com.softwalter.templates.PessoaResponseMockFactory
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.InjectMocks
 import org.mockito.Mock
@@ -19,7 +18,11 @@ import org.mockito.junit.jupiter.MockitoExtension
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Pageable
+import org.springframework.data.web.HateoasPageableHandlerMethodArgumentResolver
+import org.springframework.data.web.PagedResourcesAssembler
+import org.springframework.hateoas.PagedModel
 import java.util.*
+
 
 @ExtendWith(MockitoExtension::class)
 internal class PessoaUseCaseImplTest {
@@ -30,9 +33,15 @@ internal class PessoaUseCaseImplTest {
     @Mock
     private lateinit var pessoaMapper: PessoaMapper
 
+    @Mock
+    private lateinit var assembler: PagedResourcesAssembler<PessoaResponse>
+
     @InjectMocks
     private lateinit var pessoaUseCaseImpl: PessoaUseCaseImpl
 
+    var resolver = HateoasPageableHandlerMethodArgumentResolver()
+    var assembler1: PagedResourcesAssembler<PessoaResponse> =
+        PagedResourcesAssembler<PessoaResponse>(resolver, null)
     @BeforeEach
     fun setUp() {
 //        inputObject = PessoaMockFactory.criarPessoa()
@@ -73,16 +82,19 @@ internal class PessoaUseCaseImplTest {
         val expectedPessoaResponse: Page<PessoaResponse> = PessoaResponseMockFactory.criarPessoasResponses()
         Mockito.`when`(pessoaMapper.pessoasToListResponse(expectedListRepository))
             .thenReturn(expectedPessoaResponse)
+        Mockito.`when`(assembler.toModel(expectedPessoaResponse))
+            .thenReturn(PagedModel.empty())
         val actualRepository = pessoaRepository.findAll()
         val actualpessoaResponse = pessoaMapper.pessoasToListResponse(expectedListRepository)
+        assembler.toModel(expectedPessoaResponse)
         val actualList = pessoaUseCaseImpl.buscarPessoas(pageable)
 
         Assertions.assertNotNull(actualRepository)
         Assertions.assertNotNull(actualpessoaResponse)
         Assertions.assertNotNull(actualList)
-        Assertions.assertEquals(3, actualList.size)
-        Assertions.assertNotNull(actualList.get().toList()[0].links)
-        Assertions.assertNotNull(actualList.get().toList().get(0).links.toString().contains("</cadastro/v1/pessoas/1>,rel=\"self\""))
+        Assertions.assertEquals(3, actualList.metadata!!.size)
+        Assertions.assertNotNull(actualList.links.toList()[0].href)
+        Assertions.assertNotNull(actualList.links.toList().get(0).rel.toString().contains("</cadastro/v1/pessoas/1>,rel=\"self\""))
         Assertions.assertEquals(expectedListRepository, actualRepository)
         Assertions.assertEquals(expectedPessoaResponse, actualpessoaResponse)
         Assertions.assertEquals(expectedPessoaResponse, actualList)

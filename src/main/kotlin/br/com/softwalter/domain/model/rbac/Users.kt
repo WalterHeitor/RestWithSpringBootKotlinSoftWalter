@@ -31,7 +31,7 @@ class Users : UserDetails{
     var credentialsNonExpired: Boolean? = null
 
     @Column
-    var ennabled: Boolean? = null
+    var enabled: Boolean? = null
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -75,7 +75,7 @@ class Users : UserDetails{
     }
 
     override fun isEnabled(): Boolean {
-        return ennabled!!
+        return enabled!!
     }
 
 }
