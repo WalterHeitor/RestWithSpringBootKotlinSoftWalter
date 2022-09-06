@@ -1,5 +1,7 @@
 cors:
   origin_patterns: http://locahost:8080,http://locahost:3000,http://softWalter.com.br,
+file:
+  upload-dir: D:/PROJETOSINTELLIJ/uploadImagens
 security:
   jwt:
     token:
@@ -17,6 +19,12 @@ spring:
     hibernate.ddl-auto: update
     generate-ddl: true
     show-sql: true
+  sevlet:
+    multipart:
+      enabled: true
+      file-size-threshold: 2KB
+      max-file-size: 200MB
+      max-request-size: 215MB
 spring-doc:
   path-to-math:
     - /auth/**
