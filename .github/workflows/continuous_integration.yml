@@ -28,7 +28,7 @@ jobs:
       run: mvn clean package -DskipTests
       
     - name: Docker compose build
-      working-directory: ./RestWithSpringBootKotlinSoftWalter
+      working-directory: .
       run: docker compose build
       
       
