@@ -24,7 +24,7 @@ jobs:
         distribution: 'adopt'
         cache: maven
     - name: Build Apllication Jar
-      working-directory: RestWithSpringBootKotlinSoftWalter
+      working-directory: .
       run: mvn clean package -DskipTests
       
     - name: Docker compose build
