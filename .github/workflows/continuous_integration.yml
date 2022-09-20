@@ -37,7 +37,7 @@ jobs:
         docker tag ${{ secrets.DOCKER_USERNAME }}/rest-soft-walter:latest ${{ secrets.DOCKER_USERNAME }}/rest-soft-walter:${{github.run_id}}
         
         docker push ${{ secrets.DOCKER_USERNAME }}/rest-soft-walter:${{github.run_id}}
-        docker push ${{ secrets.DOCKER_USERNAME }}/rest-soft-walter:latest
+        docker push ${{ secrets.DOCKER_USERNAME }}/rest-soft-walter:latest 
       
         
         
