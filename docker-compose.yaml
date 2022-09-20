@@ -1,0 +1,62 @@
+version: '3.9'
+services:
+  db:
+    image: mysql:8.0
+    # NOTE: use of "mysql_native_password" is not recommended: https://dev.mysql.com/doc/refman/8.0/en/upgrading-from-previous-series.html#upgrade-caching-sha2-password
+    # (this is just an example, not intended to be a production configuration)
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      TZ: America/Sao_Paulo
+      MYSQL_ROOT_PASSWORD: admin123
+      MYSQL_USER: docker
+      MYSQL_PASSWORD: admin123
+      MYSQL_DATABASE: rest_spring_kotlin
+      MYSQL_ROOT_HOST: '%'
+      MYSQL_TCP_PORT: 3308
+    ports:
+      - "3308:3308"
+    expose:
+      - 3808
+    networks:
+      - walter-network
+  rest-soft-walter:
+    image: wallterheitor/rest-soft-walter
+    restart: always
+    build: .
+#      context: ../.
+#      dockerfile: Dockerfile
+    working_dir: /rest-with-spring-boot-soft-walter
+    environment:
+      TZ: America/Sao_Paulo
+      #SPRING.DATASOURCE.URL: jdbc://db:3308/rest_spring_kotlin?useTimezone=true&serverTimezone=UTC
+      SPRING.DATASOURCE.URL: jdbc:mysql://db:3308/rest_spring_kotlin?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=CONVERT_TO_NULL&serverTimezone=GMT
+      SPRING.DATASOURCE.USERNAME: docker
+      SPRING.DATASOURCE.PASSWORD: admin123
+    ports:
+      - "80:80"
+    command: mvn spring-boot:run
+    depends_on:
+      - db
+    networks:
+      - walter-network
+networks:
+  walter-network:
+    driver: bridge
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

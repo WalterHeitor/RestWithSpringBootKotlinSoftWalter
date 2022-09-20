@@ -1,0 +1,29 @@
+cors:
+  origin_patterns: http://locahost:8080,http://locahost:3000,http://softWalter.com.br,
+security:
+  jwt:
+    token:
+      secret-key: 36cr37
+      expire-length: 3600000
+spring:
+  main:
+    allow-circular-references: true
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/rest_spring_kotlin?useTimezone=true&serverTimezone=UTC
+    username: root
+    password: admin1234
+    jpa:
+      hibernate.ddl-auto: update
+      generate-ddl: true
+      show-sql: true
+      #conexao com dbaver rest_spring_kotlin?allowPublicKeyRetrieval=true&useSSL=false
+#      database-platform: org.hibernate.dialect.MySQL5Dialect
+#      hibernate:
+#        ddl-auto: update
+#        dialect: org.hibernate.dialect.MySQL5Dialect
+#      properties:
+#        hibernate:
+#          show_sql: true
+#          use_sql_comments: true
+#          format_sql: true
