@@ -36,7 +36,6 @@ class SecurityConfig : WebSecurityConfigurerAdapter() {
 
     override fun configure(http: HttpSecurity?) {
         http!!
-
             .httpBasic().disable()
             .csrf().disable()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -57,7 +56,5 @@ class SecurityConfig : WebSecurityConfigurerAdapter() {
             .cors()
             .and()
             .apply(JwtConfigurer(tokenProvider))
-
     }
-
 }

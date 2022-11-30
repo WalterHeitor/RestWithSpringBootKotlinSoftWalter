@@ -34,8 +34,8 @@ class AuthUseCaseImpl(
             val username = data.userName
             val password = data.password
 
-            authenticationManager
-                .authenticate(UsernamePasswordAuthenticationToken(username, password))
+//            authenticationManager
+//                .authenticate(UsernamePasswordAuthenticationToken(username, password))
 
             var user: Users = Users()
             try {

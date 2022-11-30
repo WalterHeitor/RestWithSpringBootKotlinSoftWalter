@@ -15,9 +15,10 @@ import org.springframework.web.bind.annotation.*
 class AuthController {
     @Autowired
     lateinit var authUseCase: AuthUseCase
-
+//
     @Operation(summary = "Autenticacao de usuarios e token")
-    @PostMapping(value = ["/signin"])
+//    @CrossOrigin(origins = ["http://localhost:3000"])
+    @PostMapping("/signin")
     fun singin (@RequestBody data: AccountCredentialsRequest?) : ResponseEntity<*>? {
 
         return if (data!!.userName.isNullOrBlank() || data.password.isNullOrBlank())

@@ -2,6 +2,7 @@ package br.com.softwalter.domain.usecase.impl
 
 import br.com.softwalter.domain.repository.rbac.UsersRepository
 import br.com.softwalter.domain.usecase.UsersUseCase
+import br.com.softwalter.exceptions.InvalidJwtAutenticationException
 import br.com.softwalter.presentation.mapper.ProdutoMapper
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
@@ -19,6 +20,7 @@ class UsersUseCaseImpl(
     override fun loadUserByUsername(username: String?): UserDetails {
         logger.info("usecase details - buscando por name do user no Banco de Dados ...")
         val user = usersRepository.findByUserName(username)
-        return user ?: throw UsernameNotFoundException("User Name $username nao encontrado ")
+        println(user)
+        return user ?: throw InvalidJwtAutenticationException("User Name $username nao encontrado ")
     }
 }

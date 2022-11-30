@@ -41,6 +41,7 @@ class PessoaController(
         return ResponseEntity.ok(pessoaUseCase.buscarPessoaPorId(idPessoa))
     }
 
+    @CrossOrigin(origins = ["http://localhost:8080", "https://softWalter.com.br", "http://localhost:3000"])
     @GetMapping(
         produces = [MediaType.APPLICATION_JSON_VALUE])
     @Operation(
@@ -77,7 +78,7 @@ class PessoaController(
         produces = [MediaType.APPLICATION_JSON_VALUE])
     @Operation(
         summary = "busca pessoas",
-        description = "Busca todas pessoas cadastradas no banco",
+        description = "Buscar pessoa por 'nome' cadastradas no banco",
         tags = ["Pessoas"],
         responses = [
             ApiResponse(
@@ -105,7 +106,7 @@ class PessoaController(
         return ResponseEntity.ok(pessoaUseCase.findPessoaByNome(nomePessoa, pageable))
     }
 
-    @CrossOrigin(origins = ["http://localhost:8080", "https://softWalter.com.br"])
+    @CrossOrigin(origins = ["http://localhost:8080", "https://softWalter.com.br", "http://localhost:3000"])
     @PostMapping(
         consumes = [MediaType.APPLICATION_JSON_VALUE],
         produces = [MediaType.APPLICATION_JSON_VALUE]
